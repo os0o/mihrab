@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* تسجيل الألوان كخصائص مكتوبة يسمح بانتقال سلس للسماء عند تغيّر وقت الصلاة */
+@property --sky-top { syntax: "<color>"; inherits: true; initial-value: #050818; }
+@property --sky-horizon { syntax: "<color>"; inherits: true; initial-value: #1c2860; }
+@property --base { syntax: "<color>"; inherits: true; initial-value: #0a0f2c; }
+@property --fg { syntax: "<color>"; inherits: true; initial-value: #f4eee2; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: #b9b6c8; }
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #f2c46d; }
+@property --accent-ink { syntax: "<color>"; inherits: true; initial-value: #1b1405; }
+
+/* كل فترة من اليوم لها سماء وألوان نص خاصة؛ النهار فاتح والليل داكن */
+:root,
+[data-period="night"] {
+  --sun: #f4eee2;
+  --sky-top: #050818;
+  --sky-horizon: #1c2860;
+  --base: #0a0f2c;
+  --fg: #f4eee2;
+  --muted: #b9b6c8;
+  --surface: rgb(255 255 255 / 0.06);
+  --line: rgb(244 238 226 / 0.14);
+  --accent: #f2c46d;
+  --accent-ink: #1b1405;
+  --stars: 1;
+  color-scheme: dark;
+}
+
+[data-period="fajr"] {
+  --sun: #ffd6a8;
+  --sky-top: #141b44;
+  --sky-horizon: #d99a8c;
+  --base: #1a1f45;
+  --fg: #fbf3ea;
+  --muted: #c9c2d6;
+  --surface: rgb(255 255 255 / 0.08);
+  --line: rgb(255 255 255 / 0.16);
+  --accent: #ffc9a0;
+  --accent-ink: #2a160c;
+  --stars: 0.45;
+  color-scheme: dark;
+}
+
+[data-period="morning"] {
+  --sun: #f2b544;
+  --sky-top: #8fc0e3;
+  --sky-horizon: #fbf1db;
+  --base: #f5f0e5;
+  --fg: #12223f;
+  --muted: #4d5a70;
+  --surface: rgb(255 255 255 / 0.7);
+  --line: rgb(18 34 63 / 0.12);
+  --accent: #233a8c;
+  --accent-ink: #ffffff;
+  --stars: 0;
+  color-scheme: light;
+}
+
+[data-period="dhuhr"] {
+  --sun: #f6c64f;
+  --sky-top: #4e97d1;
+  --sky-horizon: #e6f2f8;
+  --base: #eef3f5;
+  --fg: #0c1c38;
+  --muted: #46566d;
+  --surface: rgb(255 255 255 / 0.75);
+  --line: rgb(12 28 56 / 0.12);
+  --accent: #1c3584;
+  --accent-ink: #ffffff;
+  --stars: 0;
+  color-scheme: light;
+}
+
+[data-period="asr"] {
+  --sun: #ee9b2f;
+  --sky-top: #d99a4e;
+  --sky-horizon: #f9e7c6;
+  --base: #f7eedd;
+  --fg: #2a1a0a;
+  --muted: #6a5434;
+  --surface: rgb(255 255 255 / 0.6);
+  --line: rgb(42 26 10 / 0.14);
+  --accent: #7a3410;
+  --accent-ink: #fff5ea;
+  --stars: 0;
+  color-scheme: light;
+}
+
+[data-period="maghrib"] {
+  --sun: #ffb35c;
+  --sky-top: #24163c;
+  --sky-horizon: #ee8e4a;
+  --base: #22143a;
+  --fg: #fff2e6;
+  --muted: #d2c1d3;
+  --surface: rgb(255 255 255 / 0.07);
+  --line: rgb(255 255 255 / 0.16);
+  --accent: #ffc86b;
+  --accent-ink: #2a1408;
+  --stars: 0.25;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-base: var(--base);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-sun: var(--sun);
+  --font-sans: var(--font-plex), system-ui, sans-serif;
+  --font-naskh: var(--font-amiri), "Traditional Arabic", serif;
+  --font-quran: var(--font-amiri-quran), var(--font-amiri), serif;
+}
+
+html {
+  background: var(--base);
+  -webkit-tap-highlight-color: transparent;
+  transition: --sky-top 1.6s ease, --sky-horizon 1.6s ease, --base 1.6s ease, --fg 1.6s ease, --muted 1.6s ease,
+    --accent 1.6s ease, --accent-ink 1.6s ease;
+}
+
+/* الخلفية على html فقط، وإلا غطّت خلفية body طبقة السماء ذات z-index السالب */
+body {
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum" 1;
+}
+
+/* السماء خلف أعلى كل صفحة: من أعلى السماء إلى وهج الأفق ثم لون الأرض */
+.sky {
+  background: linear-gradient(to bottom, var(--sky-top) 0%, var(--sky-horizon) 44%, var(--base) 78%);
+}
+
+.stars {
+  opacity: var(--stars);
+  transition: opacity 1.6s ease;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 28% 8%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 44% 22%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 63% 12%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 26%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 88% 6%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 6% 34%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 36% 38%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 55% 33%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 94% 40%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 20% 48%, #fff 40%, transparent 51%),
+    radial-gradient(1px 1px at 71% 46%, #fff 40%, transparent 51%);
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+button,
+[role="button"],
+a,
+select,
+summary,
+label[for] {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

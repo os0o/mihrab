@@ -1,0 +1,20 @@
+{
+  "name": "مِحراب — مواقيت الصلاة والقبلة",
+  "short_name": "مِحراب",
+  "description": "مواقيت الصلاة والأذان، اتجاه القبلة، الأذكار والسبحة، ورمضان.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0f2c",
+  "theme_color": "#050818",
+  "categories": ["lifestyle", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
